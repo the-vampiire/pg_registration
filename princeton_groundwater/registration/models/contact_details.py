@@ -5,6 +5,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
+#TODO: consider moving Contact Details to its own table
+# store FK on Student and Coure Location tables
 class ContactDetails(models.Model):
   """
   Stores contact information for a student or course location
@@ -42,6 +44,7 @@ class ContactDetails(models.Model):
   
   # full_clean() is not called by default in the Django model save() method
   # call to trigger the self.clean() method and provide the above validation
+  # https://docs.djangoproject.com/en/2.0/ref/models/instances/#validating-objects
   def save(self, *args, **kwargs):
     self.full_clean()
     return super(ContactDetails, self).save(*args, **kwargs)

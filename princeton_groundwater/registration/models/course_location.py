@@ -20,4 +20,7 @@ class CourseLocation(ContactDetails): # inherits models.Model as grandparent cla
 
     def __str__(self):
         return self.name
+    
+    def print_details(self):
+        return super(ContactDetails, self).__str__()
 
