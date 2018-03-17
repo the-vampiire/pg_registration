@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from datetime import datetime
 from .course_location import CourseLocation
 
@@ -19,6 +20,19 @@ class Course(models.Model):
   price = models.IntegerField(default = 1595.00)
   start_date = models.DateField()
   end_date = models.DateField()
+
+  def clean(self):
+    clean_data = super(Course, self).clean()
+    if self.title not in self.course_options:
+      raise ValidationError({
+        "title": "Invalid course title. Must be 'pollution' or 'remediation'"
+      })
+    return clean_data
+
+  def save(self, *args, **kwargs):
+    self.full_clean()
+    return super(ContactDetails, self).save(*args, **kwargs)
+
   def __str__(self):
     return "{title} - {start}".format(title = self.title, start = self.start_date)
 
