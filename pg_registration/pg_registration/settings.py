@@ -10,21 +10,43 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os
-from private import PROTECTED_DEFAULT_DB_SETTINGS, PROTECTED_SECRET_KEY
+import os, sys
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = PROTECTED_SECRET_KEY
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+# helper function that scans the environment dictionary for all required vars
+def check_env_vars(env_dict):
+    # add any expected environmental variables to this list
+    expected_vars = (
+        'SECRET_KEY',
+        'DB_NAME',
+        'DB_USER',
+        'DB_PASSWORD',
+        'DB_HOST',
+        'DB_PORT',
+    )
+    for expected_var in expected_vars:
+        if expected_var not in env_dict:
+            error_string = "Missing environmental variable >> {} <<".format(expected_var)
+            if DEBUG:
+                raise KeyError(error_string)
+            else:
+                print(error_string)
+                sys.exit(1)
+
+# confirm all required env variables are present  
+check_env_vars(os.environ)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ['SECRET_KEY']
 
 ALLOWED_HOSTS = []
 
@@ -73,9 +95,15 @@ WSGI_APPLICATION = 'pg_registration.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
 DATABASES = {
-    'default': PROTECTED_DEFAULT_DB_SETTINGS
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
+    }
 }
 
 
