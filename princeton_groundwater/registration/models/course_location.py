@@ -4,10 +4,11 @@ from .contact_details import ContactDetails
 from django.core.validators import RegexValidator
 from django.db import models
 
-class CourseLocation(ContactDetails):
+class CourseLocation(ContactDetails): # inherits models.Model as grandparent class
     """
     Represents the location where a course is to be held
     Stores contact information inherited from ContactDetails abstract class
+    inherits Django Models class as grandparent class through ContactDetails
     """
     class Meta:
         db_table = "course_locations" # renames from registration_* to course_locations
