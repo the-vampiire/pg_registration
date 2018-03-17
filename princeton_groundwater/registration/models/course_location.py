@@ -22,5 +22,13 @@ class CourseLocation(ContactDetails): # inherits models.Model as grandparent cla
         return self.name
     
     def print_details(self):
-        return super(ContactDetails, self).__str__()
+        return """
+{name}
+Website: {url}
+{details}
+        """.format(
+            name = self.__str__(),
+            url = self.url if hasattr(self, 'url') else "No website listed",
+            details = ContactDetails.__str__(self)
+        )
 
