@@ -22,7 +22,10 @@ class Course(models.Model):
   end_date = models.DateField(blank = False)
 
   def __str__(self):
-    return "{title} - {start}".format(title = self.title, start = self.start_date)
+    return "{title} [{start}]".format(
+      title = dict(self.course_options)[self.title], # convert to dict for lookup to full name display
+      start = self.start_date,
+    )
 
   def print_details(self):
     return """

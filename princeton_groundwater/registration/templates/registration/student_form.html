@@ -7,15 +7,14 @@
   <title>Course Registration</title>
 </head>
 <body>
-  <ul>
-    {% for course in courses  %}
-      <li>
-        {{ course.title }} - ${{ course.price }}
-      </li>
-      <li>
-        {{ course.course_location.city }}
-      </li>
+  <form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <label>{{ field.label_tag }}</label>
+      <span>{{ field.errors }}</span>
+      <div>{{ field }}</div>
     {% endfor %}
-  </ul>
+    <input type="submit" value="Register">
+  </form>
 </body>
 </html>
