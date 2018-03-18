@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import CourseLocation, Course, Student
 
-# Register your models here.
+admin.site.register([CourseLocation, Course, Student])

@@ -39,7 +39,7 @@ class ContactDetails(models.Model):
   def clean(self):
     cleaned_data = super(ContactDetails, self).clean() # call Django default clean first
     if not self.phone and not self.email:
-      raise ValidationError({"contact_detail": "Must provide either a phone number or email address"})
+      raise ValidationError({"phone": "Must provide either a phone number or email address"})
     return cleaned_data # if above validation passes return the default cleaned data
   
   # full_clean() is not called by default in the Django model save() method
