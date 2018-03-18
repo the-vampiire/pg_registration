@@ -18,20 +18,8 @@ class Course(models.Model):
 
   title = models.CharField(max_length = 11, choices = course_options, blank=False, null=True)
   price = models.IntegerField(default = 1595.00)
-  start_date = models.DateField()
-  end_date = models.DateField()
-
-  def clean(self):
-    clean_data = super(Course, self).clean()
-    if self.title not in self.course_options:
-      raise ValidationError({
-        "title": "Invalid course title. Must be 'pollution' or 'remediation'"
-      })
-    return clean_data
-
-  def save(self, *args, **kwargs):
-    self.full_clean()
-    return super(ContactDetails, self).save(*args, **kwargs)
+  start_date = models.DateField(blank = False) # TODO: do not allow blank
+  end_date = models.DateField(blank = False)
 
   def __str__(self):
     return "{title} - {start}".format(title = self.title, start = self.start_date)

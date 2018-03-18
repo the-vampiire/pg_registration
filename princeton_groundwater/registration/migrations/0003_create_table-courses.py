@@ -25,4 +25,12 @@ class Migration(migrations.Migration):
                 'db_table': 'courses',
             },
         ),
+
+# TODO: figure out how to implement cascade since django only "emulates" it
+# https://www.fusionbox.com/blog/detail/custom-database-constraints-in-django/594/
+        # migrations.RunSQL(
+        #     """
+        #     set on delete cascade constraint
+        #     """
+        # )
     ]
