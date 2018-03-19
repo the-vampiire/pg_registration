@@ -5,6 +5,9 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
+# TODO: should ContactDetails be split into a Location table [absorbing CL's name/url] and ContactInformation? 
+# with both Student and Course holding Location FK and Student also with ContactInfo FK
+
 #TODO: consider moving Contact Details to its own table
 # store FK on Student and Coure Location tables
 class ContactDetails(models.Model):
@@ -31,8 +34,6 @@ class ContactDetails(models.Model):
   phone = models.CharField(max_length = 16, validators = [phone_validation], blank=True, null=True)
   fax = models.CharField(max_length = 16, validators = [phone_validation], blank=True, null=True)
   email = models.EmailField(blank=True, null=True)
-
-# TODO: add form validation when creating the Form
 
   # ensure either phone or email are passed
   # https://stackoverflow.com/a/23434418/7542831

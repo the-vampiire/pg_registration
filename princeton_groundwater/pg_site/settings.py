@@ -35,6 +35,8 @@ def check_env_vars(env_dict):
         'DB_PASSWORD',
         'DB_HOST',
         'DB_PORT',
+        'STRIPE_PUBLISHABLE',
+        'STRIPE_SECRET'
     )
     for expected_var in expected_vars:
         if expected_var not in env_dict:
@@ -51,11 +53,15 @@ check_env_vars(os.environ)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
+# STRIPE PAYMENT PROCESSING VARS
+STRIPE_SECRET = os.environ['STRIPE_SECRET']
+STRIPE_PUBLISHABLE = os.environ['STRIPE_PUBLISHABLE']
+
 ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
-    'registration.apps.RegistrationConfig',
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,3 +152,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]

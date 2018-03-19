@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', include('registration.urls', namespace = 'registration')),
     path('admin/', admin.site.urls),
-    path('', include('registration.urls', namespace = 'registration'))
 ]
+
+if settings.DEBUG:
+    # Your URL pattern [<URLPattern '^static\/(?P<path>.*)$'>] is invalid.
+    # the error was because static() returns a list. it must be concatenated not inserted
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
