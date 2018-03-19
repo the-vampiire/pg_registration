@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from datetime import datetime
+from time import strftime
 from .course_location import CourseLocation
 
 class Course(models.Model):
@@ -9,8 +10,8 @@ class Course(models.Model):
 
   # TODO: find a way to turn this into an Admin editable enum
   course_options = (
-    ("pollution", "The Groundwater Pollution and Hydrology Course"),
-    ("remediation", "The Groundwater Remediation Course")
+    ("pollution", "Pollution and Hydrology Course"),
+    ("remediation", "Remediation Course")
   )
 
   # FK for Course Location
@@ -22,8 +23,9 @@ class Course(models.Model):
   end_date = models.DateField(blank = False)
 
   def __str__(self):
-    return "{title} [{start}]".format(
+    return "{title}: {city} [{start}]".format(
       title = dict(self.course_options)[self.title], # convert to dict for lookup to full name display
+      city = self.course_location.city,
       start = self.start_date,
     )
 
