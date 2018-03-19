@@ -1,0 +1,55 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style rel="stylesheet"> .container { width: 60%; } </style>
+
+  <title>Course Registration</title>
+</head>
+<body>
+  
+  <div id="form_banner" class="container">
+    <img class="img-fluid" src="{% static 'registration/media/banner.png' %}"/>
+  </div>
+  <div id="form_container" class="container">
+    <form action="" method="post" class="post-form">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          {% if field.html_name == 'stripeToken' %}
+            {{ field.as_hidden}}
+          {% else %}
+            <div class="form-group">
+              <label>{{ field.label_tag }}</label>
+              {{ field }}
+            </div>
+            {% comment %} <label>{{ field.label_tag }}</label>
+            <span>{{ field.errors }}</span>
+            <div>{{ field }}</div> {% endcomment %}
+          {% endif %}
+        {% endfor %}
+
+        <input id="form_submit" type="submit" value="Register">
+
+        <script
+          src="https://checkout.stripe.com/checkout.js"
+          class="stripe-button"
+          data-key="{{ stripe_publishable }}"
+          data-name="Princeton Groundwater Inc."
+          data-zip-code="true"
+          data-description="Course registration payment"
+          data-amount="159900"
+          data-allow-remember-me="false"
+          data-image="{% static 'registration/media/logo.jpg' %}"
+          data-locale="auto"
+        >
+        </script>
+      </form>
+  </div>
+</body>
+</html>
