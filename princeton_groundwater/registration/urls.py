@@ -21,5 +21,4 @@ app_name = 'registration'
 urlpatterns = [
     path('', RegisterStudent.as_view(), name = 'register-student'),
     path('success/<int:id>', success, name = 'success'),
-    # path('stripe')
 ]
